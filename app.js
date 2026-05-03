@@ -100,11 +100,6 @@ if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').cat
 let relevos = [];
 
 function mostrarRelevo() {
-
-  document.querySelectorAll("main section").forEach(sec => {
-    sec.style.display = "none";
-  });
-
   document.getElementById("relevo").style.display = "block";
 }
 
