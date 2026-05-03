@@ -78,3 +78,40 @@ function csv(){
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');currentSection=b.dataset.section;render();});
 document.getElementById('addItem').onclick=addItem; document.getElementById('search').oninput=render; document.getElementById('exportCsv').onclick=csv; document.getElementById('resetData').onclick=()=>{if(confirm('Restaurar datos iniciales?')){data=seed;save();render();}};
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});} render();
+let relevos = [];
+
+function mostrarRelevo() {
+
+  document.querySelectorAll("main section").forEach(sec => {
+    sec.style.display = "none";
+  });
+
+  document.getElementById("relevo").style.display = "block";
+}
+
+function guardarRelevo() {
+  const fecha = new Date().toLocaleString();
+  const entrega = document.getElementById("entrega").value;
+  const recibe = document.getElementById("recibe").value;
+  const obs = document.getElementById("obs").value;
+
+  relevos.push({ fecha, entrega, recibe, obs });
+
+  alert("Relevo guardado");
+}
+
+function exportarCSV() {
+  let csv = "Fecha,Entrega,Recibe,Observaciones\n";
+
+  relevos.forEach(r => {
+    csv += `${r.fecha},${r.entrega},${r.recibe},${r.obs}\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "relevos.csv";
+  a.click();
+}
