@@ -62,10 +62,29 @@ function render(){
     return `<article class="item ${cls}"><h3>${x.name}</h3><div class="meta"><div><b>Categoría:</b> ${x.category||'-'}</div><div><b>Ubicación:</b> ${x.location||'-'}</div><div><b>Obligatorio:</b> ${x.requiredQty}</div><div><b>Actual:</b> ${x.currentQty}</div><div><b>Estado:</b> ${x.status}</div><div><b>Obs.:</b> ${x.notes||'-'}</div></div><div class="actions"><button class="ok" onclick="markOk(${idx})">OK</button><button class="muted" onclick="editItem(${idx})">Editar</button><button class="danger" onclick="deleteItem(${idx})">Borrar</button></div></article>`
   }).join('') || '<p>No hay material en este apartado todavía.</p>';
 }
+  const save = () => {
+  localStorage.setItem('autobomba', JSON.stringify(data));
+};
+
 function addItem(){
-  const name = document.getElementById('name').value.trim(); if(!name) return alert('Pon nombre del material');
-  data.push({section:currentSection, category:'Añadido manualmente', name, location:location.value, requiredQty:Number(requiredQty.value||0), currentQty:Number(currentQty.value||0), status:status.value, notes:notes.value});
-  ['name','location','requiredQty','currentQty','notes'].forEach(id=>document.getElementById(id).value=''); save(); render();
+  const name = document.getElementById('name').value;
+  const location = document.getElementById('location').value;
+  const requiredQty = document.getElementById('requiredQty').value;
+  const currentQty = document.getElementById('currentQty').value;
+  const status = document.getElementById('status').value;
+
+  data.push({
+    section: currentSection,
+    category: 'Añadido',
+    name,
+    location,
+    requiredQty,
+    currentQty,
+    status
+  });
+
+  save();
+  render();
 }
 function markOk(i){data[i].currentQty=data[i].requiredQty;data[i].status='Operativo';save();render();}
 function deleteItem(i){if(confirm('¿Borrar este material?')){data.splice(i,1);save();render();}}
