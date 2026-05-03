@@ -30,6 +30,21 @@
     </section>
 
     <section class="form-card">
+      <section id="relevo" style="display:none;" class="card">
+  <h2>📋 Hoja de relevo</h2>
+
+  <label>Entrega:</label>
+  <input type="text" id="entrega" placeholder="Bombero que entrega">
+
+  <label>Recibe:</label>
+  <input type="text" id="recibe" placeholder="Bombero que recibe">
+
+  <label>Material / incidencias relevadas:</label>
+  <textarea id="obs" placeholder="Ej: Falta manguera 45 abajo, motosierra sin cadena..."></textarea>
+
+  <button onclick="guardarRelevo()">Guardar relevo</button>
+  <button onclick="exportarCSV()">Exportar CSV relevo</button>
+</section>
       <h2>Añadir material</h2>
       <div class="form-grid">
         <input id="name" placeholder="Nombre del material" />
