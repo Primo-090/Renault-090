@@ -1,0 +1,9 @@
+{
+  "name": "Control Autobomba",
+  "short_name": "Autobomba",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#b91c1c",
+  "icons": []
+}

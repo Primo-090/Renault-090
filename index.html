@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Control Autobomba</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>🚒 Control Autobomba</h1>
+    <p>Inventario por apartados: LCIF, Inundaciones, Cabina y Taquilla de parque</p>
+  </header>
+
+  <main>
+    <section class="tabs">
+      <button class="tab active" data-section="LCIF">LCIF</button>
+      <button class="tab" data-section="Inundaciones">Inundaciones</button>
+      <button class="tab" data-section="Material cabina">Material cabina</button>
+      <button class="tab" data-section="Taquilla de parque">Taquilla parque</button>
+    </section>
+
+    <section class="toolbar">
+      <input id="search" placeholder="Buscar material..." />
+      <button id="exportCsv">Exportar CSV</button>
+      <button id="resetData">Restaurar</button>
+    </section>
+
+    <section class="form-card">
+      <h2>Añadir material</h2>
+      <div class="form-grid">
+        <input id="name" placeholder="Nombre del material" />
+        <input id="location" placeholder="Ubicación: arriba, abajo, cabina..." />
+        <input id="requiredQty" type="number" min="0" placeholder="Cantidad obligatoria" />
+        <input id="currentQty" type="number" min="0" placeholder="Cantidad actual" />
+        <select id="status">
+          <option>Operativo</option>
+          <option>Falta</option>
+          <option>Dañado</option>
+          <option>Pendiente revisión</option>
+          <option>Caducado</option>
+        </select>
+        <input id="notes" placeholder="Observaciones" />
+      </div>
+      <button id="addItem">Añadir al apartado actual</button>
+    </section>
+
+    <section class="summary" id="summary"></section>
+    <section id="items" class="items"></section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
