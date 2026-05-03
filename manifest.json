@@ -1,19 +1,11 @@
 {
-  "name": "Control Autobomba",
-  "short_name": "Autobomba",
+  "name": "Renault 090",
+  "short_name": "090 Autobomba",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#b91c1c",
-  "
-    {
-  "nombre": "Control de autobomba",
-  "nombre_corto": "Autobomba",
-  "start_url": "./index.html",
-  "mostrar": "autónomo",
-  "color_de_fondo": "#111827",
-  "color_del_tema": "#b91c1c",
-  "iconos": [
+  "icons": [
     {
       "src": "icono.png",
       "sizes": "512x512",
