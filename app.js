@@ -48,9 +48,23 @@ const seed = [
   {section:'Taquilla de parque', category:'Material intercambiable', name:'Mochila de la autobomba', location:'Taquilla de parque / Autobomba', requiredQty:1, currentQty:1, status:'Pendiente revisión', notes:'Registrar si se cambia por salero'},
   {section:'Taquilla de parque', category:'Pendiente de rellenar', name:'Material pendiente de añadir', location:'Taquilla de parque', requiredQty:0, currentQty:0, status:'Pendiente revisión', notes:'Apartado preparado para completar'}
 ];
-let data = JSON.parse(localStorage.getItem('autobombaData') || 'null') || seed;
+let data = [];
 let currentSection = 'LCIF';
-const save = () => localStorage.setItem('autobombaData', JSON.stringify(data));
+function cargarInventarioOnline() {
+  db.collection("inventario").onSnapshot(snapshot => {
+    data = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    // 🔥 SOLO AQUÍ
+    if (data.length === 0) {
+      seed.forEach(item => db.collection("inventario").add(item));
+    }
+
+    render();
+  });
+}
 function render(){
   const q = document.getElementById('search').value.toLowerCase();
   const filtered = data.filter(x => x.section === currentSection && (x.name+x.location+x.category+x.notes).toLowerCase().includes(q));
@@ -63,29 +77,52 @@ function render(){
   }).join('') || '<p>No hay material en este apartado todavía.</p>';
 }
 function addItem(){
-  const name = document.getElementById('name').value;
-  const location = document.getElementById('location').value;
-  const requiredQty = document.getElementById('requiredQty').value;
-  const currentQty = document.getElementById('currentQty').value;
-  const status = document.getElementById('status').value;
+  const item = {
+    section: currentSection,
+    category: 'Añadido',
+    name: document.getElementById('name').value,
+    location: document.getElementById('location').value,
+    requiredQty: Number(document.getElementById('requiredQty').value),
+    currentQty: Number(document.getElementById('currentQty').value),
+    status: document.getElementById('status').value,
+    notes: document.getElementById('notes').value
+  };
 
-  data.push({
-  section: currentSection,
-  category: 'Añadido',
-  name,
-  location,
-  requiredQty,
-  currentQty,
-  status,
-  notes: document.getElementById('notes').value
-});
-  
-  save();
-  render();
+  db.collection("inventario").add(item);
+
+  document.getElementById('name').value = "";
+  document.getElementById('location').value = "";
+  document.getElementById('requiredQty').value = "";
+  document.getElementById('currentQty').value = "";
+  document.getElementById('notes').value = "";
 }
-function markOk(i){data[i].currentQty=data[i].requiredQty;data[i].status='Operativo';save();render();}
-function deleteItem(i){if(confirm('¿Borrar este material?')){data.splice(i,1);save();render();}}
-function editItem(i){const x=data[i]; const v=prompt('Cantidad actual:', x.currentQty); if(v!==null){x.currentQty=Number(v); x.status = x.currentQty < x.requiredQty ? 'Falta' : 'Operativo'; save(); render();}}
+function markOk(i){
+  const x = data[i];
+  db.collection("inventario").doc(x.id).update({
+    currentQty: x.requiredQty,
+    status: 'Operativo'
+  });
+}
+
+function deleteItem(i){
+  if(confirm('¿Borrar este material?')){
+    db.collection("inventario").doc(data[i].id).delete();
+  }
+}
+
+function editItem(i){
+  const x = data[i];
+  const v = prompt('Cantidad actual:', x.currentQty);
+
+  if(v !== null){
+    const nuevaCantidad = Number(v);
+
+    db.collection("inventario").doc(x.id).update({
+      currentQty: nuevaCantidad,
+      status: nuevaCantidad < x.requiredQty ? 'Falta' : 'Operativo'
+    });
+  }
+}
 function csv(){
   const rows=[['Apartado','Categoria','Material','Ubicacion','Cantidad obligatoria','Cantidad actual','Estado','Observaciones'], ...data.map(x=>[x.section,x.category,x.name,x.location,x.requiredQty,x.currentQty,x.status,x.notes])];
   const content=rows.map(r=>r.map(c=>'"'+String(c).replaceAll('"','""')+'"').join(';')).join('\n');
@@ -136,11 +173,11 @@ function exportarRelevosCSV() {
 document.getElementById('addItem').onclick = addItem;
 document.getElementById('search').oninput = render;
 document.getElementById('exportCsv').onclick = csv;
-document.getElementById('resetData').onclick = () => {
+document.getElementById('resetData').onclick = async () => {
   if (confirm('¿Restaurar datos iniciales?')) {
-    data = seed;
-    save();
-    render();
+    const snapshot = await db.collection("inventario").get();
+    snapshot.forEach(doc => db.collection("inventario").doc(doc.id).delete());
+    seed.forEach(item => db.collection("inventario").add(item));
   }
 };
 
@@ -148,4 +185,6 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(() => {});
 }
 
-render();
+cargarInventarioOnline();
+
+
