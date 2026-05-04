@@ -62,10 +62,6 @@ function render(){
     return `<article class="item ${cls}"><h3>${x.name}</h3><div class="meta"><div><b>Categoría:</b> ${x.category||'-'}</div><div><b>Ubicación:</b> ${x.location||'-'}</div><div><b>Obligatorio:</b> ${x.requiredQty}</div><div><b>Actual:</b> ${x.currentQty}</div><div><b>Estado:</b> ${x.status}</div><div><b>Obs.:</b> ${x.notes||'-'}</div></div><div class="actions"><button class="ok" onclick="markOk(${idx})">OK</button><button class="muted" onclick="editItem(${idx})">Editar</button><button class="danger" onclick="deleteItem(${idx})">Borrar</button></div></article>`
   }).join('') || '<p>No hay material en este apartado todavía.</p>';
 }
-  const save = () => {
-  localStorage.setItem('autobomba', JSON.stringify(data));
-};
-
 function addItem(){
   const name = document.getElementById('name').value;
   const location = document.getElementById('location').value;
@@ -74,15 +70,16 @@ function addItem(){
   const status = document.getElementById('status').value;
 
   data.push({
-    section: currentSection,
-    category: 'Añadido',
-    name,
-    location,
-    requiredQty,
-    currentQty,
-    status
-  });
-
+  section: currentSection,
+  category: 'Añadido',
+  name,
+  location,
+  requiredQty,
+  currentQty,
+  status,
+  notes: document.getElementById('notes').value
+});
+  
   save();
   render();
 }
@@ -94,15 +91,18 @@ function csv(){
   const content=rows.map(r=>r.map(c=>'"'+String(c).replaceAll('"','""')+'"').join(';')).join('\n');
   const blob=new Blob([content],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='inventario-autobomba.csv'; a.click();
 }
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));b.classList.add('active');currentSection=b.dataset.section;render();});
-document.getElementById('addItem').onclick=addItem; document.getElementById('search').oninput=render; document.getElementById('exportCsv').onclick=csv; document.getElementById('resetData').onclick=()=>{if(confirm('Restaurar datos iniciales?')){data=seed;save();render();}};
-if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});} render();
-let relevos = [];
-
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.getElementById("relevo").style.display = "none";
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  b.classList.add('active');
+  currentSection=b.dataset.section;
+  render();
+});
+let relevos = JSON.parse(localStorage.getItem('relevos') || '[]');
 function mostrarRelevo() {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById("relevo").style.display = "block";
 }
-
 function guardarRelevo() {
   const fecha = new Date().toLocaleString();
   const entrega = document.getElementById("entrega").value;
@@ -111,10 +111,14 @@ function guardarRelevo() {
 
   relevos.push({ fecha, entrega, recibe, obs });
 
+  // 🔥 GUARDADO EN EL MÓVIL
+  localStorage.setItem('relevos', JSON.stringify(relevos));
+
   alert("Relevo guardado");
 }
 
-function exportarCSV() {
+
+function exportarRelevosCSV() {
   let csv = "Fecha,Entrega,Recibe,Observaciones\n";
 
   relevos.forEach(r => {
@@ -129,3 +133,19 @@ function exportarCSV() {
   a.download = "relevos.csv";
   a.click();
 }
+document.getElementById('addItem').onclick = addItem;
+document.getElementById('search').oninput = render;
+document.getElementById('exportCsv').onclick = csv;
+document.getElementById('resetData').onclick = () => {
+  if (confirm('¿Restaurar datos iniciales?')) {
+    data = seed;
+    save();
+    render();
+  }
+};
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+}
+
+render();
