@@ -65,7 +65,23 @@
     <section class="summary" id="summary"></section>
     <section id="items" class="items"></section>
   </main>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBh61qQJ-uKFyV8vnBd23IpE995QUi-_R0",
+  authDomain: "primo-090.firebaseapp.com",
+  projectId: "primo-090",
+  storageBucket: "primo-090.firebasestorage.app",
+  messagingSenderId: "832943911137",
+  appId: "1:832943911137:web:aa9cd059cfe68aa0ef07a0"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
   <script src="app.js"></script>
 </body>
 </html>
