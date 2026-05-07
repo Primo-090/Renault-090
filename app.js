@@ -136,6 +136,7 @@ document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
   document.getElementById("bastarda").style.display = "none";
   document.getElementById("items").style.display = "grid";
   document.getElementById("summary").style.display = "block";
+  document.getElementById("formMaterial").style.display = "block";
 
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   b.classList.add('active');
@@ -291,6 +292,7 @@ function mostrarBastarda(){
   document.getElementById("relevo").style.display = "none";
   document.getElementById("items").style.display = "none";
   document.getElementById("summary").style.display = "none";
+  document.getElementById("formMaterial").style.display = "none";
 
   document.querySelectorAll('.tab').forEach(t=>{
     t.classList.remove('active');
