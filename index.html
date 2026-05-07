@@ -68,25 +68,28 @@
       <button id="exportCsv">Exportar CSV</button>
       <button id="resetData">Restaurar</button>
     </section>
-  <section id="bastarda" class="form-card" style="display:none;">
+ <section id="bastarda" class="form-card" style="display:none;">
   <h2>🚒 Bastarda</h2>
 
-  <label>Kilómetros:</label>
-  <input id="kmBastarda" type="number" placeholder="Km actuales">
+  <div class="form-grid">
+    <label>Kilómetros:</label>
+    <input id="kmBastarda" type="number" placeholder="Km actuales">
 
-  <label>Horas de trabajo:</label>
+    <label>Horas de trabajo:</label>
+    <input id="horasBastarda" type="number" placeholder="Horas actuales">
+
     <label>Próximo cambio de aceite:</label>
-<input id="aceiteBastarda" type="number" placeholder="Km próximo cambio">
+    <input id="aceiteBastarda" type="number" placeholder="Km próximo cambio">
 
-<label>Próxima ITV:</label>
-<input id="itvBastarda" type="text" placeholder="Ej: 03/2026">
+    <label>Próxima ITV:</label>
+    <input id="itvBastarda" type="text" placeholder="Ej: 03/2026">
 
-<label>Revisión bomba:</label>
-<input id="bombaBastarda" type="text" placeholder="Estado revisión">
-  <input id="horasBastarda" type="number" placeholder="Horas actuales">
+    <label>Revisión bomba:</label>
+    <input id="bombaBastarda" type="text" placeholder="Estado revisión">
 
-  <label>Observaciones:</label>
-  <textarea id="obsBastarda" placeholder="Ej: revisión viernes, anomalías..."></textarea>
+    <label>Observaciones:</label>
+    <textarea id="obsBastarda" placeholder="Ej: revisión viernes, anomalías..."></textarea>
+  </div>
 
   <button onclick="guardarBastarda()">Guardar datos</button>
 
