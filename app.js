@@ -127,8 +127,7 @@ function render(){
 
       html += `
         <article class="item ${cls}">
-          <h3>${x.name}</h3>
-
+         <h3>${iconoMaterial(x)} ${x.name}</h3>
           <div class="meta">
             <div><b>Ubicación:</b> ${x.location || '-'}</div>
             <div><b>Obligatorio:</b> ${x.requiredQty}</div>
@@ -183,6 +182,22 @@ function iconoCategoria(cat){
   };
 
   return iconos[cat] || '📁';
+}
+function iconoMaterial(x){
+
+  const nombre = x.name.toLowerCase();
+
+  if(nombre.includes('manguera')) return '🧯';
+  if(nombre.includes('motosierra')) return '🪚';
+  if(nombre.includes('cadena')) return '⛓️';
+  if(nombre.includes('pala') || nombre.includes('palín')) return '⛏️';
+  if(nombre.includes('hacha') || nombre.includes('pulaski')) return '🪓';
+  if(nombre.includes('garrafa')) return '⛽';
+  if(nombre.includes('reducción') || nombre.includes('racor')) return '🔩';
+  if(nombre.includes('batefuegos')) return '🔥';
+  if(nombre.includes('mochila')) return '🎒';
+
+  return '📦';
 }
 function addItem(){
   const item = {
