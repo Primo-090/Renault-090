@@ -53,3 +53,16 @@
   font-weight:700;
   cursor:pointer;
 }
+.truck-info{
+  margin-top:10px;
+  display:grid;
+  gap:4px;
+  font-size:14px;
+  opacity:.95;
+}
+
+.truck-info div{
+  background:rgba(255,255,255,.08);
+  padding:6px 10px;
+  border-radius:8px;
+}
