@@ -133,6 +133,10 @@ function csv(){
 }
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
   document.getElementById("relevo").style.display = "none";
+  document.getElementById("bastarda").style.display = "none";
+  document.getElementById("items").style.display = "grid";
+  document.getElementById("summary").style.display = "block";
+
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   b.classList.add('active');
   currentSection=b.dataset.section;
@@ -280,5 +284,52 @@ window.addEventListener("load", () => {
   }
 
 });
+let datosBastarda = {};
 
+function mostrarBastarda(){
+  document.getElementById("bastarda").style.display = "block";
+  document.getElementById("relevo").style.display = "none";
+  document.getElementById("items").style.display = "none";
+  document.getElementById("summary").style.display = "none";
 
+  document.querySelectorAll('.tab').forEach(t=>{
+    t.classList.remove('active');
+  });
+
+  cargarDatosBastarda();
+}
+
+function guardarBastarda(){
+  const datos = {
+    km: document.getElementById("kmBastarda").value,
+    horas: document.getElementById("horasBastarda").value,
+    obs: document.getElementById("obsBastarda").value,
+    fecha: new Date().toLocaleString(),
+    usuario: localStorage.getItem("usuarioActual") || "Sin usuario"
+  };
+
+  db.collection("bastarda").doc("datos").set(datos);
+
+  alert("Datos Bastarda guardados");
+}
+
+function cargarDatosBastarda(){
+  db.collection("bastarda").doc("datos").onSnapshot(doc => {
+    if(!doc.exists) return;
+
+    const datos = doc.data();
+
+    document.getElementById("kmBastarda").value = datos.km || "";
+    document.getElementById("horasBastarda").value = datos.horas || "";
+    document.getElementById("obsBastarda").value = datos.obs || "";
+
+    document.getElementById("datosBastarda").innerHTML = `
+      <strong>Último registro</strong><br><br>
+      🚒 Km: ${datos.km || "-"}<br>
+      ⏱ Horas: ${datos.horas || "-"}<br>
+      👤 Usuario: ${datos.usuario || "-"}<br>
+      📅 Fecha: ${datos.fecha || "-"}<br><br>
+      📝 ${datos.obs || "Sin observaciones"}
+    `;
+  });
+}
