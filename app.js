@@ -112,14 +112,16 @@ function deleteItem(i){
 
 function editItem(i){
   const x = data[i];
-  const v = prompt('Cantidad actual:', x.currentQty);
 
-  if(v !== null){
-    const nuevaCantidad = Number(v);
+  const nuevaCantidad = prompt('Cantidad actual:', x.currentQty);
+  const nuevasObs = prompt('Observaciones:', x.notes || '');
+  const nuevoEstado = prompt('Estado:', x.status || 'Operativo');
 
+  if(nuevaCantidad !== null){
     db.collection("inventario").doc(x.id).update({
-      currentQty: nuevaCantidad,
-      status: nuevaCantidad < x.requiredQty ? 'Falta' : 'Operativo'
+      currentQty: Number(nuevaCantidad),
+      notes: nuevasObs !== null ? nuevasObs : x.notes,
+      status: nuevoEstado !== null ? nuevoEstado : x.status
     });
   }
 }
