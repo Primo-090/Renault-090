@@ -55,6 +55,7 @@
 
 <main id="appMain" style="display:none;">
     <section class="tabs">
+      <button class="tab" onclick="mostrarBastarda()">🚒 Bastarda</button>
       <button class="tab active" data-section="LCIF">LCIF</button>
       <button class="tab" data-section="Inundaciones">Inundaciones</button>
       <button class="tab" data-section="Material cabina">Material cabina</button>
@@ -67,6 +68,22 @@
       <button id="exportCsv">Exportar CSV</button>
       <button id="resetData">Restaurar</button>
     </section>
+  <section id="bastarda" class="form-card" style="display:none;">
+  <h2>🚒 Bastarda</h2>
+
+  <label>Kilómetros:</label>
+  <input id="kmBastarda" type="number" placeholder="Km actuales">
+
+  <label>Horas de trabajo:</label>
+  <input id="horasBastarda" type="number" placeholder="Horas actuales">
+
+  <label>Observaciones:</label>
+  <textarea id="obsBastarda" placeholder="Ej: revisión viernes, anomalías..."></textarea>
+
+  <button onclick="guardarBastarda()">Guardar datos</button>
+
+  <div id="datosBastarda" class="summary"></div>
+</section>
 <section id="relevo" style="display:none;">
   <h2>📋 Hoja de relevo</h2>
 
