@@ -9,12 +9,43 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <section id="loginScreen" class="login-screen">
+  <div class="login-overlay">
+
+    <div class="login-card">
+
+      <img src="login.png" class="login-logo">
+
+      <select id="loginUser" class="login-input">
+        <option value="">Selecciona usuario</option>
+        <option>Primo</option>
+        <option>Pares</option>
+        <option>Casañ</option>
+        <option>Bodi</option>
+        <option>Jefa</option>
+      </select>
+
+      <input
+        id="loginPass"
+        class="login-input"
+        type="password"
+        placeholder="Contraseña"
+      >
+
+      <button class="login-btn" onclick="login()">
+        INICIAR SESIÓN
+      </button>
+
+    </div>
+
+  </div>
+</section>
   <header>
     <h1>🚒 Renault 090🫡</h1>
     <p>Inventario por apartados: LCIF, Inundaciones, Cabina y Taquilla de parque</p>
   </header>
 
-  <main>
+<main id="appMain" style="display:none;">
     <section class="tabs">
       <button class="tab active" data-section="LCIF">LCIF</button>
       <button class="tab" data-section="Inundaciones">Inundaciones</button>
