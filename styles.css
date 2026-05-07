@@ -66,3 +66,10 @@
   padding:6px 10px;
   border-radius:8px;
 }
+.historial-card{
+  background:#f9fafb;
+  border-left:6px solid #991b1b;
+  padding:12px;
+  border-radius:12px;
+  margin-bottom:10px;
+}
