@@ -297,7 +297,7 @@ function mostrarBastarda(){
   cargarDatosBastarda();
 }
 function guardarBastarda(){
-  const datos = {
+ const datos = {
   km: document.getElementById("kmBastarda").value,
   horas: document.getElementById("horasBastarda").value,
   aceite: document.getElementById("aceiteBastarda").value,
@@ -305,36 +305,44 @@ function guardarBastarda(){
   bomba: document.getElementById("bombaBastarda").value,
   obs: document.getElementById("obsBastarda").value,
   fecha: new Date().toLocaleString(),
+  fechaISO: new Date().toISOString(),
   usuario: localStorage.getItem("usuarioActual") || "Sin usuario"
 };
-  db.collection("bastarda").doc("datos").set(datos);
+  db.collection("bastarda").add(datos);
 
   alert("Datos Bastarda guardados");
 }
 
 function cargarDatosBastarda(){
-  db.collection("bastarda").doc("datos").onSnapshot(doc => {
-    if(!doc.exists) return;
 
-    const datos = doc.data();
+  db.collection("bastarda")
+    .orderBy("fechaISO", "desc")
+    .onSnapshot(snapshot => {
 
-    document.getElementById("kmBastarda").value = datos.km || "";
-    document.getElementById("horasBastarda").value = datos.horas || "";
-    document.getElementById("obsBastarda").value = datos.obs || "";
-    document.getElementById("aceiteBastarda").value = datos.aceite || "";
-document.getElementById("itvBastarda").value = datos.itv || "";
-document.getElementById("bombaBastarda").value = datos.bomba || "";
+      if(snapshot.empty) return;
 
-  document.getElementById("datosBastarda").innerHTML = `
-  <strong>Último registro</strong><br><br>
-  🚒 Km: ${datos.km || "-"}<br>
-  ⏱ Horas: ${datos.horas || "-"}<br>
-  🛢 Aceite: ${datos.aceite || "-"} km<br>
-  📅 ITV: ${datos.itv || "-"}<br>
-  🚿 Revisión bomba: ${datos.bomba || "-"}<br>
-  👤 Usuario: ${datos.usuario || "-"}<br>
-  📅 Fecha: ${datos.fecha || "-"}<br><br>
-  📝 ${datos.obs || "Sin observaciones"}
-`;
-  });
+      let html = `<strong>Historial Bastarda</strong><br><br>`;
+
+      snapshot.forEach(doc => {
+
+        const datos = doc.data();
+
+        html += `
+          <div class="historial-card">
+            🚒 <b>Km:</b> ${datos.km || "-"}<br>
+            ⏱ <b>Horas:</b> ${datos.horas || "-"}<br>
+            🛢 <b>Aceite:</b> ${datos.aceite || "-"} km<br>
+            📅 <b>ITV:</b> ${datos.itv || "-"}<br>
+            🚿 <b>Bomba:</b> ${datos.bomba || "-"}<br>
+            👤 <b>Usuario:</b> ${datos.usuario || "-"}<br>
+            📆 <b>Fecha:</b> ${datos.fecha || "-"}<br>
+            📝 ${datos.obs || "Sin observaciones"}
+          </div><br>
+        `;
+      });
+
+      document.getElementById("datosBastarda").innerHTML = html;
+
+    });
+
 }
