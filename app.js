@@ -294,13 +294,8 @@ function mostrarBastarda(){
   document.getElementById("summary").style.display = "none";
   document.getElementById("formMaterial").style.display = "none";
 
-  document.querySelectorAll('.tab').forEach(t=>{
-    t.classList.remove('active');
-  });
-
   cargarDatosBastarda();
 }
-
 function guardarBastarda(){
   const datos = {
     km: document.getElementById("kmBastarda").value,
