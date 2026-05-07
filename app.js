@@ -67,15 +67,106 @@ function cargarInventarioOnline() {
   });
 }
 function render(){
+
   const q = document.getElementById('search').value.toLowerCase();
-  const filtered = data.filter(x => x.section === currentSection && (x.name+x.location+x.category+x.notes).toLowerCase().includes(q));
-  const faltas = filtered.filter(x => Number(x.currentQty) < Number(x.requiredQty) || ['Falta','Dañado','Caducado'].includes(x.status)).length;
-  document.getElementById('summary').innerHTML = `<strong>${currentSection}</strong> <span class="pill">${filtered.length} elementos</span> <span class="pill">${faltas} incidencias</span>`;
-  document.getElementById('items').innerHTML = filtered.map((x,i)=>{
-    const idx = data.indexOf(x);
-    const cls = Number(x.currentQty)<Number(x.requiredQty) || x.status==='Falta' ? 'bad' : (x.status==='Pendiente revisión'||x.status==='Dañado'||x.status==='Caducado' ? 'warn' : '');
-    return `<article class="item ${cls}"><h3>${x.name}</h3><div class="meta"><div><b>Categoría:</b> ${x.category||'-'}</div><div><b>Ubicación:</b> ${x.location||'-'}</div><div><b>Obligatorio:</b> ${x.requiredQty}</div><div><b>Actual:</b> ${x.currentQty}</div><div><b>Estado:</b> ${x.status}</div><div><b>Obs.:</b> ${x.notes||'-'}</div></div><div class="actions"><button class="ok" onclick="markOk(${idx})">OK</button><button class="muted" onclick="editItem(${idx})">Editar</button><button class="danger" onclick="deleteItem(${idx})">Borrar</button></div></article>`
-  }).join('') || '<p>No hay material en este apartado todavía.</p>';
+
+  const filtered = data.filter(x =>
+    x.section === currentSection &&
+    (x.name + x.location + x.category + x.notes)
+      .toLowerCase()
+      .includes(q)
+  );
+
+  const faltas = filtered.filter(x =>
+    Number(x.currentQty) < Number(x.requiredQty) ||
+    ['Falta','Dañado','Caducado'].includes(x.status)
+  ).length;
+
+  document.getElementById('summary').innerHTML =
+    `<strong>${currentSection}</strong>
+     <span class="pill">${filtered.length} elementos</span>
+     <span class="pill">${faltas} incidencias</span>`;
+
+  const grupos = {};
+
+  filtered.forEach(item => {
+    if(!grupos[item.category]){
+      grupos[item.category] = [];
+    }
+    grupos[item.category].push(item);
+  });
+
+  let html = '';
+
+  Object.keys(grupos).forEach(cat => {
+
+    html += `
+      <div class="categoria-box">
+        <button class="categoria-btn" onclick="toggleCategoria('${cat}')">
+          ${cat}
+          <span>${grupos[cat].length}</span>
+        </button>
+
+        <div class="categoria-items" id="cat-${cat.replaceAll(' ','')}">
+    `;
+
+    grupos[cat].forEach(x => {
+
+      const idx = data.indexOf(x);
+
+      const cls =
+        Number(x.currentQty) < Number(x.requiredQty) || x.status === 'Falta'
+        ? 'bad'
+        : (
+            x.status === 'Pendiente revisión' ||
+            x.status === 'Dañado' ||
+            x.status === 'Caducado'
+          ? 'warn'
+          : ''
+        );
+
+      html += `
+        <article class="item ${cls}">
+          <h3>${x.name}</h3>
+
+          <div class="meta">
+            <div><b>Ubicación:</b> ${x.location || '-'}</div>
+            <div><b>Obligatorio:</b> ${x.requiredQty}</div>
+            <div><b>Actual:</b> ${x.currentQty}</div>
+            <div><b>Estado:</b> ${x.status}</div>
+            <div><b>Obs.:</b> ${x.notes || '-'}</div>
+          </div>
+
+          <div class="actions">
+            <button class="ok" onclick="markOk(${idx})">OK</button>
+            <button class="muted" onclick="editItem(${idx})">Editar</button>
+            <button class="danger" onclick="deleteItem(${idx})">Borrar</button>
+          </div>
+        </article>
+      `;
+    });
+
+    html += `
+        </div>
+      </div>
+    `;
+
+  });
+
+  document.getElementById('items').innerHTML = html;
+}
+function toggleCategoria(id){
+
+  const box = document.getElementById(
+    'cat-' + id.replaceAll(' ','')
+  );
+
+  if(box.style.display === 'none' || box.style.display === ''){
+    box.style.display = 'grid';
+  } else {
+    box.style.display = 'none';
+  }
+
 }
 function addItem(){
   const item = {
