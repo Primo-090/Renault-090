@@ -1,3 +1,4 @@
+
 const seed = [
   {section:'LCIF', category:'Mangueras y conducción', name:'Mangueras 25 mm', location:'LCIF', requiredQty:25, currentQty:25, status:'Operativo', notes:'Incluye 1 tramo corto'},
   {section:'LCIF', category:'Mangueras y conducción', name:'Mangueras 45 mm', location:'Arriba 4 / Abajo 4', requiredQty:8, currentQty:8, status:'Operativo', notes:''},
@@ -188,5 +189,48 @@ if ('serviceWorker' in navigator) {
 }
 
 cargarInventarioOnline();
+const PASSWORD_EQUIPO = "Bastarda312";
+
+const usuariosPermitidos = [
+  "Primo",
+  "Pares",
+  "Casañ",
+  "Bodi",
+  "Jefa"
+];
+
+function login() {
+
+  const user = document.getElementById("loginUser").value;
+  const pass = document.getElementById("loginPass").value;
+
+  if (!usuariosPermitidos.includes(user)) {
+    alert("Usuario no autorizado");
+    return;
+  }
+
+  if (pass !== PASSWORD_EQUIPO) {
+    alert("Contraseña incorrecta");
+    return;
+  }
+
+  localStorage.setItem("usuarioActual", user);
+
+  document.getElementById("loginScreen").style.display = "none";
+  document.getElementById("appMain").style.display = "block";
+
+  alert("Bienvenido " + user);
+}
+
+window.addEventListener("load", () => {
+
+  const user = localStorage.getItem("usuarioActual");
+
+  if(user){
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("appMain").style.display = "block";
+  }
+
+});
 
 
