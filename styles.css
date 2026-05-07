@@ -122,3 +122,34 @@
   align-items:center;
   gap:8px;
 }
+body{
+  background:#0f172a;
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+}
+
+body.lcif-bg{
+  background-image:
+  linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),
+  url('lcif.jpg');
+}
+
+body.inundaciones-bg{
+  background-image:
+  linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),
+  url('inundaciones.jpg');
+}
+
+body.taquilla-bg{
+  background-image:
+  linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.8)),
+  url('taquilla.jpg');
+}
+
+.summary,
+.form-card,
+.item,
+.categoria-box{
+  backdrop-filter:blur(6px);
+}
