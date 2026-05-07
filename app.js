@@ -159,99 +159,68 @@ function guardarRelevo() {
 
 
 function exportarRelevosCSV() {
-  const usuarioActual = localStorage.getItem("usuarioActual") || "Sin usuario";
 
-  const incidencias = data.filter(x =>
-    Number(x.currentQty) < Number(x.requiredQty) ||
-    ["Falta", "Dañado", "Caducado", "Pendiente revisión"].includes(x.status)
-  );
+  const filas = [[
+    "Fecha",
+    "Entrega",
+    "Recibe",
+    "Apartado",
+    "Categoría",
+    "Material",
+    "Ubicación",
+    "Cantidad obligatoria",
+    "Cantidad actual",
+    "Estado",
+    "Observaciones"
+  ]];
 
-  const filas = [
-    [
-      "Fecha exportación",
-      "Usuario que exporta",
-      "Entrega",
-      "Recibe",
-      "Apartado",
-      "Categoría",
-      "Material",
-      "Ubicación",
-      "Cantidad obligatoria",
-      "Cantidad actual",
-      "Estado",
-      "Observaciones"
-    ]
-  ];
-
-  if (relevos.length === 0) {
-    filas.push([
-      new Date().toLocaleString(),
-      usuarioActual,
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "Sin relevos guardados"
-    ]);
-  } else {
-    relevos.forEach(r => {
-      if (incidencias.length === 0) {
-        filas.push([
-          r.fecha,
-          usuarioActual,
-          r.entrega,
-          r.recibe,
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          r.obs || "Sin incidencias"
-        ]);
-      } else {
-        incidencias.forEach(x => {
-          filas.push([
-            r.fecha,
-            usuarioActual,
-            r.entrega,
-            r.recibe,
-            x.section,
-            x.category,
-            x.name,
-            x.location,
-            x.requiredQty,
-            x.currentQty,
-            x.status,
-            (r.obs ? r.obs + " | " : "") + (x.notes || "")
-          ]);
-        });
-      }
-    });
+  if(relevos.length === 0){
+    alert("No hay relevos guardados");
+    return;
   }
 
-  const csv = filas
-    .map(fila =>
-      fila.map(campo =>
-        `"${String(campo ?? "").replaceAll('"', '""')}"`
-      ).join(";")
-    )
-    .join("\n");
+  relevos.forEach(relevo => {
 
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    data.forEach(item => {
+
+      filas.push([
+        relevo.fecha,
+        relevo.entrega,
+        relevo.recibe,
+        item.section,
+        item.category,
+        item.name,
+        item.location,
+        item.requiredQty,
+        item.currentQty,
+        item.status,
+        (relevo.obs || "") + " " + (item.notes || "")
+      ]);
+
+    });
+
+  });
+
+  const csv = filas.map(f =>
+    f.map(c =>
+      `"${String(c).replaceAll('"','""')}"`
+    ).join(";")
+  ).join("\n");
+
+  const blob = new Blob(
+    [csv],
+    { type:'text/csv;charset=utf-8;' }
+  );
+
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "hoja-relevo-completa.csv";
+  a.download = "relevo-completo.csv";
   a.click();
 }
+
+ 
 document.getElementById('addItem').onclick = addItem;
 document.getElementById('search').oninput = render;
 document.getElementById('exportCsv').onclick = csv;
