@@ -101,14 +101,14 @@ function render(){
   Object.keys(grupos).forEach(cat => {
 
     html += `
-      <div class="categoria-box">
-        <button class="categoria-btn" onclick="toggleCategoria('${cat}')">
-          ${cat}
-          <span>${grupos[cat].length}</span>
-        </button>
+  <div class="categoria-box">
+    <button class="categoria-btn" onclick="toggleCategoria('${cat}')">
+      ${iconoCategoria(cat)} ${cat}
+      <span>${grupos[cat].length}</span>
+    </button>
 
-        <div class="categoria-items" id="cat-${cat.replaceAll(' ','')}">
-    `;
+    <div class="categoria-items" id="cat-${cat.replaceAll(' ','')}">
+`;
 
     grupos[cat].forEach(x => {
 
@@ -167,6 +167,22 @@ function toggleCategoria(id){
     box.style.display = 'none';
   }
 
+}
+function iconoCategoria(cat){
+
+  const iconos = {
+    'Mangueras y conducción':'🚒',
+    'Racores y reducciones':'🔩',
+    'Equipos intervención':'🧯',
+    'Kit motosierra':'🛠',
+    'Herramientas forestales':'🪓',
+    'Logística':'📦',
+    'Pendiente de rellenar':'⚠️',
+    'Material intercambiable':'🔄',
+    'Añadido':'➕'
+  };
+
+  return iconos[cat] || '📁';
 }
 function addItem(){
   const item = {
