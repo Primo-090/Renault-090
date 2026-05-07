@@ -159,18 +159,97 @@ function guardarRelevo() {
 
 
 function exportarRelevosCSV() {
-  let csv = "Fecha,Entrega,Recibe,Observaciones\n";
+  const usuarioActual = localStorage.getItem("usuarioActual") || "Sin usuario";
 
-  relevos.forEach(r => {
-    csv += `${r.fecha},${r.entrega},${r.recibe},${r.obs}\n`;
-  });
+  const incidencias = data.filter(x =>
+    Number(x.currentQty) < Number(x.requiredQty) ||
+    ["Falta", "Dañado", "Caducado", "Pendiente revisión"].includes(x.status)
+  );
 
-  const blob = new Blob([csv], { type: 'text/csv' });
+  const filas = [
+    [
+      "Fecha exportación",
+      "Usuario que exporta",
+      "Entrega",
+      "Recibe",
+      "Apartado",
+      "Categoría",
+      "Material",
+      "Ubicación",
+      "Cantidad obligatoria",
+      "Cantidad actual",
+      "Estado",
+      "Observaciones"
+    ]
+  ];
+
+  if (relevos.length === 0) {
+    filas.push([
+      new Date().toLocaleString(),
+      usuarioActual,
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "Sin relevos guardados"
+    ]);
+  } else {
+    relevos.forEach(r => {
+      if (incidencias.length === 0) {
+        filas.push([
+          r.fecha,
+          usuarioActual,
+          r.entrega,
+          r.recibe,
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          "",
+          r.obs || "Sin incidencias"
+        ]);
+      } else {
+        incidencias.forEach(x => {
+          filas.push([
+            r.fecha,
+            usuarioActual,
+            r.entrega,
+            r.recibe,
+            x.section,
+            x.category,
+            x.name,
+            x.location,
+            x.requiredQty,
+            x.currentQty,
+            x.status,
+            (r.obs ? r.obs + " | " : "") + (x.notes || "")
+          ]);
+        });
+      }
+    });
+  }
+
+  const csv = filas
+    .map(fila =>
+      fila.map(campo =>
+        `"${String(campo ?? "").replaceAll('"', '""')}"`
+      ).join(";")
+    )
+    .join("\n");
+
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = "relevos.csv";
+  a.download = "hoja-relevo-completa.csv";
   a.click();
 }
 document.getElementById('addItem').onclick = addItem;
