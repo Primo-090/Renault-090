@@ -287,7 +287,18 @@ render();
 let relevos = JSON.parse(localStorage.getItem('relevos') || '[]');
 function mostrarRelevo() {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
   document.getElementById("relevo").style.display = "block";
+  document.getElementById("bastarda").style.display = "none";
+  document.getElementById("items").style.display = "none";
+  document.getElementById("summary").style.display = "none";
+  document.getElementById("formMaterial").style.display = "none";
+
+  document.body.classList.remove(
+    'lcif-bg',
+    'inundaciones-bg',
+    'taquilla-bg'
+  );
 }
 function guardarRelevo() {
   const fecha = new Date().toLocaleString();
@@ -434,6 +445,14 @@ function mostrarBastarda(){
   document.getElementById("items").style.display = "none";
   document.getElementById("summary").style.display = "none";
   document.getElementById("formMaterial").style.display = "none";
+
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+
+  document.body.classList.remove(
+    'lcif-bg',
+    'inundaciones-bg',
+    'taquilla-bg'
+  );
 
   cargarDatosBastarda();
 }
