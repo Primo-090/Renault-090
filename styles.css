@@ -239,11 +239,12 @@ body{
 #bastarda,
 #relevo,
 #materialCabina{
-  background:rgba(255,255,255,.96) !important;
+  background:rgba(203,213,225,.88) !important;
   color:#111827 !important;
   border-radius:18px;
   padding:16px;
-  box-shadow:0 6px 18px rgba(0,0,0,.18);
+  box-shadow:0 6px 18px rgba(0,0,0,.25);
+  backdrop-filter:blur(8px);
 }
 
 #bastarda h2,
@@ -261,7 +262,7 @@ body{
 #relevo textarea,
 #materialCabina input,
 #materialCabina textarea{
-  background:white !important;
+  background:rgba(255,255,255,.92) !important;
   color:#111827 !important;
-  border:1px solid #d1d5db;
+  border:1px solid #94a3b8;
 }
