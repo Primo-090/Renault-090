@@ -206,3 +206,22 @@ body.taquilla-bg{
 .tabs button:active{
   transform:scale(.97);
 }
+#bastarda,
+#relevo,
+#materialCabina{
+  background:rgba(255,255,255,.92);
+  color:#111827;
+  border-radius:18px;
+  padding:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
+}
+
+#bastarda input,
+#bastarda textarea,
+#relevo input,
+#relevo textarea,
+#materialCabina input,
+#materialCabina textarea{
+  background:white;
+  color:#111827;
+}
