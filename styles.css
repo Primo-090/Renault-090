@@ -133,13 +133,13 @@ body{
 body.lcif-bg{
   background-image:
   linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),
-  url('lcif.jpg');
+  url('lcif.png')
 }
 
 body.inundaciones-bg{
   background-image:
   linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.75)),
-  url('inundaciones.jpg');
+  url('inundaciones.png')
 }
 
 body.taquilla-bg{
@@ -157,13 +157,13 @@ body.taquilla-bg{
 body.lcif-bg{
   background:
     linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
-    url('lcif.jpg') center/cover fixed;
+    url('lcif.png') center/cover fixed;
 }
 
 body.inundaciones-bg{
   background:
     linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
-    url('inundaciones.jpg') center/cover fixed;
+    url('inundaciones.png') center/cover fixed;
 }
 
 body.taquilla-bg{
@@ -224,4 +224,15 @@ body.taquilla-bg{
 #materialCabina textarea{
   background:white;
   color:#111827;
+}
+.tabs{
+  margin-bottom:20px;
+}
+
+.tabs button{
+  min-height:72px;
+}
+
+body{
+  overflow-x:hidden;
 }
