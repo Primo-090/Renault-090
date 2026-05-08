@@ -187,3 +187,32 @@ body.taquilla-bg{
 .tabs button:last-child{
   background:linear-gradient(135deg,#6d28d9,#8b5cf6);
 }
+/* Animación suave botones */
+.tabs button{
+  transition:.25s ease;
+}
+
+/* Efecto pulsación */
+.tabs button:active{
+  transform:scale(.97);
+}
+
+/* Hover visual */
+.tabs button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 18px rgba(0,0,0,.28);
+}
+
+/* Botón activo más premium */
+.tab.active{
+  background:linear-gradient(135deg,#991b1b,#dc2626);
+  box-shadow:0 6px 16px rgba(220,38,38,.35);
+}
+
+/* Botones normales */
+.tab{
+  background:rgba(255,255,255,.92);
+  color:#111827;
+  font-weight:700;
+  box-shadow:0 4px 10px rgba(0,0,0,.18);
+}
