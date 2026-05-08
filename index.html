@@ -58,9 +58,9 @@
       <button onclick="mostrarBastarda()">🚒 Bastarda</button>
       <button class="tab active" data-section="LCIF">LCIF</button>
       <button class="tab" data-section="Inundaciones">Inundaciones</button>
-      <button class="tab" data-section="Material cabina">Material cabina</button>
+      <button class="tab" onclick="mostrarBastarda()">🚒 Bastarda</button>
       <button class="tab" data-section="Taquilla de parque">Taquilla parque</button>
-      <button onclick="mostrarRelevo()">📋 Hoja de relevo</button>
+      <button class="tab" onclick="mostrarRelevo()">📋 Hoja de relevo</button>
     </section>
 
     <section class="toolbar">
@@ -94,6 +94,10 @@
   <button onclick="guardarBastarda()">Guardar datos</button>
 
   <div id="datosBastarda" class="summary"></div>
+</section>
+  <section id="materialCabina" class="form-card" style="display:none;">
+  <h2>🚒 Material cabina</h2>
+  <p>Aquí irá el material de cabina.</p>
 </section>
 <section id="relevo" style="display:none;">
   <h2>📋 Hoja de relevo</h2>
