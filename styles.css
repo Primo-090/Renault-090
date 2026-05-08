@@ -171,3 +171,19 @@ body.taquilla-bg{
     linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6)),
     url('taquilla.jpg') center/cover fixed;
 }
+.tabs button:not(.tab){
+  color:white;
+  font-weight:700;
+  border:none;
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
+}
+
+/* 🚒 Bastarda */
+.tabs button:first-child{
+  background:linear-gradient(135deg,#d97706,#f59e0b);
+}
+
+/* 📋 Hoja de relevo */
+.tabs button:last-child{
+  background:linear-gradient(135deg,#6d28d9,#8b5cf6);
+}
