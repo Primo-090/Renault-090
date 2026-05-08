@@ -254,12 +254,14 @@ function csv(){
   const blob=new Blob([content],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='inventario-autobomba.csv'; a.click();
 }
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+
   document.getElementById("relevo").style.display = "none";
   document.getElementById("bastarda").style.display = "none";
+  document.getElementById("materialCabina").style.display = "none";
+
   document.getElementById("items").style.display = "grid";
   document.getElementById("summary").style.display = "block";
   document.getElementById("formMaterial").style.display = "block";
-
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   b.classList.add('active');
 currentSection = b.dataset.section;
@@ -436,6 +438,16 @@ function mostrarBastarda(){
   document.getElementById("formMaterial").style.display = "none";
 
   cargarDatosBastarda();
+}
+function mostrarCabina(){
+
+  document.getElementById("materialCabina").style.display = "block";
+
+  document.getElementById("items").style.display = "none";
+  document.getElementById("summary").style.display = "none";
+  document.getElementById("formMaterial").style.display = "none";
+  document.getElementById("relevo").style.display = "none";
+  document.getElementById("bastarda").style.display = "none";
 }
 function guardarBastarda(){
  const datos = {
