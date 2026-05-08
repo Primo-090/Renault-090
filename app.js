@@ -262,8 +262,27 @@ document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
 
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   b.classList.add('active');
-  currentSection=b.dataset.section;
-  render();
+currentSection = b.dataset.section;
+
+document.body.classList.remove(
+  'lcif-bg',
+  'inundaciones-bg',
+  'taquilla-bg'
+);
+
+if(currentSection === 'LCIF'){
+  document.body.classList.add('lcif-bg');
+}
+
+if(currentSection === 'Inundaciones'){
+  document.body.classList.add('inundaciones-bg');
+}
+
+if(currentSection === 'Taquilla de parque'){
+  document.body.classList.add('taquilla-bg');
+}
+
+render();
 });
 let relevos = JSON.parse(localStorage.getItem('relevos') || '[]');
 function mostrarRelevo() {
